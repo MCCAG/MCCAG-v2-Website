@@ -1,4 +1,7 @@
-# MCCAG 2.5.1
+# MCCAG 2
+
+> [!WARNING]
+> 此仓库已弃用，[点击查看新仓库](https://github.com/MCCAG/MCCAG-v2.5-Website))
 
 ## 项目简介
 
