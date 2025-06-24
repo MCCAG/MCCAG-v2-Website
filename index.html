@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <title data-i18n="title">可爱头像生成器 | Minecraft Cute Avatar Generator</title>
+    <link rel="icon" type="image/png" href="Resources/Logo.png">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header__logo">
+            <img src="Resources/Logo.png" alt="Logo" class="header__logo-img">
+            <h1 class="header__title">Minecraft CAG</h1>
+        </div>
+        <div class="language-switcher">
+            <input type="checkbox" id="language-switch" value="0" class="language-switcher__checkbox">
+            <label for="language-switch" class="language-switcher__label">
+                <img src="Resources/Icons/Language.svg" alt="选择语言" data-i18n-alt="language_alt" class="language-switcher__icon">
+            </label>
+            <ul class="language-switcher__list">
+                <li class="language-switcher__item" id="chinese" data-lang="zh"><a href="javascript:void(0);" class="language-switcher__link">汉语</a></li>
+                <li class="language-switcher__item" id="english" data-lang="en"><a href="javascript:void(0);" class="language-switcher__link">English</a></li>
+                <li class="language-switcher__item" id="japanese" data-lang="jp"><a href="javascript:void(0);" class="language-switcher__link">日本語</a></li>
+                <li class="language-switcher__item" id="korean" data-lang="ko"><a href="javascript:void(0);" class="language-switcher__link">한국어</a></li>
+                <li class="language-switcher__item" id="french" data-lang="fr"><a href="javascript:void(0);" class="language-switcher__link">Français</a></li>
+                <li class="language-switcher__item" id="german" data-lang="de"><a href="javascript:void(0);" class="language-switcher__link">Deutsch</a></li>
+            </ul>
+        </div>
+    </header>
+    <main class="main">
+        <ul class="notification-tips"></ul>
+        <section class="generator">
+            <div class="generator__tabs tabs">
+                <input type="radio" id="mojang" name="tabs" checked="" class="tabs__input">
+                <label for="mojang" data-i18n="tab_mojang" class="tabs__label">正版 ID</label>
+                <input type="radio" id="website" name="tabs" class="tabs__input">
+                <label for="website" data-i18n="tab_website" class="tabs__label">皮肤站</label>
+                <input type="radio" id="upload" name="tabs" class="tabs__input">
+                <label for="upload" data-i18n="tab_upload" class="tabs__label">上传皮肤</label>
+                <span class="tabs__glider"></span>
+            </div>
+            <div class="generator__content">
+                <div class="tab-panel tab-panel--mojang" id="active-content">
+                    <input type="text" placeholder="请输入正版 ID" data-i18n-placeholder="placeholder_id" class="input player-name">
+                    <div class="actions">
+                        <div class="action-group">
+                            <input id="generate-mojang" type="checkbox" class="actions__checkbox">
+                            <label for="generate-mojang" data-i18n="btn_generate" class="actions__label">生成</label>
+                            <ul class="dropdown">
+                                <li class="dropdown__item" avatar-type="full" data-i18n="avatar_full">全身照</li>
+                                <li class="dropdown__item" avatar-type="big_head" data-i18n="avatar_half">半身照</li>
+                                <li class="dropdown__item" avatar-type="head" data-i18n="avatar_head">仅头像</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn--secondary change-background" data-i18n="btn_change_bg">换背景</button>
+                        <div class="action-group">
+                            <input id="download-mojang" type="checkbox" class="actions__checkbox">
+                            <label for="download-mojang" data-i18n="btn_download" class="actions__label actions__label--download">下载</label>
+                            <ul class="dropdown download-options">
+                                <li class="dropdown__item" download-type="with-bg" data-i18n="download_with_bg">保留背景</li>
+                                <li class="dropdown__item" download-type="transparent" data-i18n="download_transparent">透明背景</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <canvas height="1000" width="1000" class="preview-canvas"></canvas>
+                    <div class="loading-mask"></div>
+                    <div class="actions actions--disabled">
+                        <button class="btn btn--primary publish" data-i18n="btn_publish">发布作品</button>
+                        <button class="btn btn--primary share" data-i18n="btn_share">分享</button>
+                        <button class="btn btn--primary upload" data-i18n="btn_upload_bg">上传背景</button>
+                    </div>
+                </div>
+                <div class="tab-panel tab-panel--website">
+                    <div class="form-container">
+                        <div class="form-fields">
+                            <input type="text" placeholder="请输入正版 ID" data-i18n-placeholder="placeholder_id" class="input player-name">
+                            <input type="text" value="littleskin.cn" placeholder="请输入皮肤站网址" data-i18n-placeholder="placeholder_website" class="input skin-website">
+                        </div>
+                        <div class="actions">
+                            <div class="action-group">
+                                <input id="generate-website" type="checkbox" class="actions__checkbox">
+                                <label for="generate-website" data-i18n="btn_generate" class="actions__label">生成</label>
+                                <ul class="dropdown">
+                                    <li class="dropdown__item" avatar-type="full" data-i18n="avatar_full">全身照</li>
+                                    <li class="dropdown__item" avatar-type="big_head" data-i18n="avatar_half">半身照</li>
+                                    <li class="dropdown__item" avatar-type="head" data-i18n="avatar_head">仅头像</li>
+                                </ul>
+                            </div>
+                            <button class="btn btn--secondary change-background" data-i18n="btn_change_bg">换背景</button>
+                            <div class="action-group">
+                                <input id="download-website" type="checkbox" class="actions__checkbox">
+                                <label for="download-website" data-i18n="btn_download" class="actions__label actions__label--download">下载</label>
+                                <ul class="dropdown download-options">
+                                    <li class="dropdown__item" download-type="with-bg" data-i18n="download_with_bg">保留背景</li>
+                                    <li class="dropdown__item" download-type="transparent" data-i18n="download_transparent">透明背景</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas height="1000" width="1000" class="preview-canvas"></canvas>
+                    <div class="loading-mask"></div>
+                    <div class="actions actions--disabled">
+                        <button class="btn btn--primary publish" data-i18n="btn_publish">发布作品</button>
+                        <button class="btn btn--primary share" data-i18n="btn_share">分享</button>
+                        <button class="btn btn--primary upload" data-i18n="btn_upload_bg">上传背景</button>
+                    </div>
+                </div>
+                <div class="tab-panel tab-panel--upload">
+                    <input type="file" id="upload-file" accept="image/*" class="file-input">
+                    <label for="upload-file" data-i18n="click_upload" class="file-input__label">点击上传</label>
+                    <div class="actions">
+                        <div class="action-group">
+                            <input id="generate-upload" type="checkbox" class="actions__checkbox">
+                            <label for="generate-upload" data-i18n="btn_generate" class="actions__label">生成</label>
+                            <ul class="dropdown">
+                                <li class="dropdown__item" avatar-type="full" data-i18n="avatar_full">全身照</li>
+                                <li class="dropdown__item" avatar-type="big_head" data-i18n="avatar_half">半身照</li>
+                                <li class="dropdown__item" avatar-type="head" data-i18n="avatar_head">仅头像</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn--secondary change-background" data-i18n="btn_change_bg">换背景</button>
+                        <div class="action-group">
+                            <input id="download-upload" type="checkbox" class="actions__checkbox">
+                            <label for="download-upload" data-i18n="btn_download" class="actions__label actions__label--download">下载</label>
+                            <ul class="dropdown download-options">
+                                <li class="dropdown__item" download-type="with-bg" data-i18n="download_with_bg">保留背景</li>
+                                <li class="dropdown__item" download-type="transparent" data-i18n="download_transparent">透明背景</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <canvas height="1000" width="1000" class="preview-canvas"></canvas>
+                    <div class="loading-mask"></div>
+                    <div class="actions actions--disabled">
+                        <button class="btn btn--primary publish" data-i18n="btn_publish">发布作品</button>
+                        <button class="btn btn--primary share" data-i18n="btn_share">分享</button>
+                        <button class="btn btn--primary upload" data-i18n="btn_upload_bg">上传背景</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="construction">
+            <h2 data-i18n="under_construction" class="construction__title">正在施工</h2>
+            <h2 data-i18n="stay_tuned" class="construction__subtitle">敬请期待</h2>
+        </section>
+    </main>
+    <footer class="footer">
+        <p class="footer__text">
+            <span data-i18n="production">制作：</span>
+            <a href="https://github.com/Lonely-Sails/" rel="noopener" target="_blank" class="footer__link">LonelySail</a> 
+            <a href="https://space.bilibili.com/23785358/" rel="noopener" target="_blank" class="footer__link">Keishi</a> | 
+            <a href="https://www.bilibili.com/video/BV1rB4y1F7dW/" rel="noopener" target="_blank" data-i18n="inspiration" class="footer__link">灵感来源：噪音回放（B站视频链接）</a> | 
+            <span data-i18n="sponsor">赞助：DongYue</span>
+        </p>
+        <p class="footer__text">
+            <a href="https://github.com/MCCAG/" rel="noopener" target="_blank" class="footer__link">Github</a> | 
+            <a href="https://afdian.com/a/Keishi/" rel="noopener" target="_blank" data-i18n="donate" class="footer__link">打赏给作者一杯咖啡！</a> | 
+            <span data-i18n="friendly_links">友链：</span>
+            <a href="http://klpbbs.com/" rel="noopener" target="_blank" class="footer__link">苦力怕论坛</a> 
+            <a href="https://www.minebbs.com/" rel="noopener" target="_blank" class="footer__link">MineBBS</a> 
+            <a href="https://www.rainyun.com/" rel="noopener" target="_blank" class="footer__link">雨云服务器</a> | 
+            <span id='busuanzi_container_site_pv'>
+                <span data-i18n="total_visits">本站总访问量</span> 
+                <span id="busuanzi_value_site_pv" class="footer__count"></span> 
+                <span data-i18n="times">次</span>
+            </span>
+        </p>
+    </footer>
+    <script src="translations.js"></script>
+    <script src="index.js"></script>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</body>
+</html>

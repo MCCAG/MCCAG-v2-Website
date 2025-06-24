@@ -1,0 +1,609 @@
+/* 基础样式与变量定义 */
+:root {
+  --theme-color: rgb(83, 146, 239);
+  --theme-color-alpha: rgba(83, 146, 239, 0.3);
+  --theme-shadow: 0 4px 15px rgba(83, 146, 239, 0.3);
+  --white: #fff;
+  --error-color: rgb(242, 116, 116);
+  --success-color: rgb(96, 191, 128);
+  --warning-color: rgb(240, 194, 86);
+  --footer-color: rgb(160, 175, 206);
+  --footer-bg: rgb(236, 242, 251);
+  --footer-hover: rgb(102, 113, 133);
+  --radius-sm: 5px;
+  --radius-md: 10px;
+  --radius-lg: 15px;
+  --transition-normal: 0.5s;
+  --transition-fast: 0.3s;
+  --grid-3-col: repeat(3, 1fr);
+}
+
+@font-face {
+  font-family: "Pixel";
+  src: url("Resources/Font.ttf");
+}
+
+/* 动画 */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 响应式设计 */
+@media (height <= 810px), (width <= 940px) {
+  .main {
+    padding: 70px;
+    height: auto !important;
+  }
+  .footer {
+    height: auto !important;
+  }
+}
+
+/* 基础元素重置 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Pixel";
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, p {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 按钮基础样式 */
+.btn {
+  border: none;
+  cursor: pointer;
+  font-family: "Pixel";
+  height: 35px;
+  font-size: 15px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--theme-shadow);
+  width: 100%; /* 使按钮填充整个单元格 */
+  text-align: center;
+}
+
+.btn--primary {
+  color: var(--white);
+  background: var(--theme-color);
+}
+
+.btn--secondary {
+  color: var(--theme-color);
+  background: var(--white);
+}
+
+/* 输入框基础样式 */
+.input {
+  height: 55px;
+  width: 85%;
+  margin: 20px 0;
+  font-size: 18px;
+  padding: 10px;
+  text-align: center;
+  font-family: "Pixel";
+  box-sizing: border-box;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  border: 2px solid var(--theme-color);
+  box-shadow: var(--theme-shadow);
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 4px 15px rgba(83, 146, 239, 0.5);
+}
+
+/* 顶部导航栏 */
+.header {
+  height: 60px;
+  padding: 15px;
+  box-shadow: 0 2px 4px var(--theme-color-alpha);
+}
+
+.header__logo {
+  float: left;
+}
+
+.header__logo-img {
+  float: left;
+  width: 60px;
+  height: 60px;
+}
+
+.header__title {
+  float: left;
+  line-height: 60px;
+  margin: 0 0 0 20px;
+}
+
+/* 语言选择器 */
+.language-switcher {
+  float: right;
+  height: 30px;
+}
+
+.language-switcher__checkbox {
+  display: none;
+}
+
+.language-switcher__checkbox:checked ~ .language-switcher__list {
+  opacity: 1;
+  max-height: 300px;
+}
+
+.language-switcher__label {
+  display: block;
+  text-align: center;
+  margin: 20px;
+}
+
+.language-switcher__icon {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.language-switcher__list {
+  z-index: 15;
+  opacity: 0;
+  max-height: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: fixed;
+  right: 30px;
+  top: 70px;
+  color: var(--theme-color);
+  background-color: var(--white);
+  transition: max-height var(--transition-normal), opacity var(--transition-normal);
+  box-shadow: var(--theme-shadow);
+}
+
+.language-switcher__item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color var(--transition-normal);
+}
+
+.language-switcher__item:hover {
+  background: var(--theme-color-alpha);
+}
+
+/* 主内容区域 */
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 50px;
+  height: calc(100vh - 170px);
+}
+
+/* 通知提示 */
+.notification-tips {
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  top: 95px;
+  left: 5px;
+}
+
+.notification-tips li {
+  height: 45px;
+  padding: 4px;
+  width: fit-content;
+  border-radius: var(--radius-md);
+  line-height: 25px;
+  margin: 10px;
+  transition: transform 0.8s, height 0.8s;
+  transform: translateX(-1000px);
+  box-shadow: 0 2px 5px var(--theme-color-alpha);
+}
+
+.notification-tips li::before {
+  content: ' ';
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+  margin: 10px;
+  background-size: contain;
+}
+
+.notification-tips li p {
+  height: 25px;
+  display: inline-block;
+  position: relative;
+  bottom: 18px;
+  padding: 10px 20px;
+  border-radius: 7px;
+  background-color: var(--white);
+}
+
+/* 提示类型样式 */
+.notification-tips li.error {
+  background: var(--error-color);
+}
+
+.notification-tips li.error::before {
+  background-image: url('Resources/Icons/Error.svg');
+}
+
+.notification-tips li.success {
+  background: var(--success-color);
+}
+
+.notification-tips li.success::before {
+  background-image: url('Resources/Icons/Success.svg');
+}
+
+.notification-tips li.warning {
+  background: var(--warning-color);
+}
+
+.notification-tips li.warning::before {
+  height: 21px;
+  margin: 12px 10px;
+  background-size: cover;
+  background-image: url('Resources/Icons/Warning.svg');
+}
+
+/* 主要内容区块 */
+.generator, .construction {
+  height: 630px;
+  width: 400px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--white);
+  box-shadow: var(--theme-shadow);
+}
+
+/* 标签页切换 */
+.tabs {
+  height: 45px;
+  color: var(--theme-color);
+  background: var(--theme-color-alpha);
+  display: grid;
+  grid-template-columns: var(--grid-3-col);
+  margin: 0;
+  padding: 0;
+}
+
+.tabs__input {
+  display: none;
+}
+
+.tabs__label {
+  z-index: 10;
+  line-height: 45px;
+  transition: transform var(--transition-normal);
+  cursor: pointer;
+  text-align: center;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 17px;
+  position: relative;
+}
+
+.tabs__label:hover {
+  transform: scale(1.05);
+}
+
+.tabs__glider {
+  z-index: 5;
+  width: 130px;
+  height: 45px;
+  display: block;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  background: var(--white);
+  position: relative;
+  bottom: 45px;
+  transition: transform var(--transition-normal);
+}
+
+/* 标签页滑块位置 */
+.tabs #mojang:checked ~ .tabs__glider {
+  transform: translateX(0);
+}
+
+.tabs #website:checked ~ .tabs__glider {
+  transform: translateX(132px);
+}
+
+.tabs #upload:checked ~ .tabs__glider {
+  transform: translateX(270px);
+}
+
+/* 生成器内容区域 */
+.generator__content {
+  width: 300%;
+  display: grid;
+  grid-template-columns: var(--grid-3-col);
+  text-align: center;
+  transition: transform var(--transition-normal);
+}
+
+/* 标签面板 */
+.tab-panel {
+  opacity: 0;
+  display: block;
+  position: relative;
+  transition: opacity 0.8s, transform 0.8s;
+  transform: translateX(100px);
+}
+
+.tab-panel#active-content {
+  opacity: 1;
+  transform: none;
+}
+
+/* 文件上传 */
+.file-input {
+  display: none;
+}
+
+.file-input__label {
+  height: 50px;
+  width: 85%;
+  padding: 10px;
+  margin: 20px 0;
+  font-size: 18px;
+  line-height: 25px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  font-family: "Pixel";
+  box-sizing: border-box;
+  border-radius: var(--radius-sm);
+  background: var(--theme-color);
+  border: 2px solid var(--theme-color);
+  color: var(--white);
+  box-shadow: var(--theme-shadow);
+}
+
+/* 表单容器 */
+.form-container {
+  gap: 15px;
+  width: 85%;
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+}
+
+.form-fields {
+  display: grid;
+  gap: 15px;
+}
+
+.form-fields .input {
+  margin: 0;
+  width: 100%;
+}
+
+/* 操作区域 */
+.actions {
+  width: 85%;
+  margin: 0 auto;
+  display: grid;
+  gap: 15px;
+  grid-template-columns: var(--grid-3-col);
+}
+
+.action-group {
+  position: relative;
+  width: 100%; /* 确保宽度填充网格单元格 */
+}
+
+.actions--disabled {
+  opacity: 0.6;
+}
+
+.actions--disabled button {
+  cursor: not-allowed;
+}
+
+.actions__checkbox {
+  display: none;
+}
+
+.actions__label {
+  cursor: pointer;
+  height: 35px;
+  font-size: 15px;
+  line-height: 35px;
+  border-radius: var(--radius-sm);
+  color: var(--white);
+  background: var(--theme-color);
+  box-shadow: var(--theme-shadow);
+  display: block;
+  width: 100%; /* 使按钮填充整个父容器 */
+  text-align: center;
+}
+
+.actions__label--download {
+  color: var(--theme-color);
+  background: var(--white);
+}
+
+/* 设置发布作品、分享和上传背景按钮的样式与换背景按钮一致 */
+.actions .btn--primary {
+  color: var(--theme-color);
+  background: var(--white);
+}
+
+/* 下拉菜单 */
+.dropdown {
+  position: absolute;
+  z-index: 15;
+  opacity: 0;
+  max-height: 0;
+  border-radius: var(--radius-sm);
+  color: var(--theme-color);
+  background-color: var(--white);
+  transform: translateY(0);
+  transition: max-height var(--transition-normal), opacity var(--transition-normal);
+  overflow: hidden;
+  box-shadow: var(--theme-shadow);
+  left: 0;
+  top: 35px; /* 标签高度 */
+  width: 100%; /* 与父容器同宽 */
+  min-width: 100%; /* 确保至少与父容器同宽 */
+  box-sizing: border-box; /* 确保边框不增加宽度 */
+  margin-top: 10px; /* 添加顶部边距 */
+}
+
+.dropdown__item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color var(--transition-normal);
+}
+
+.dropdown__item:hover {
+  background: var(--theme-color-alpha);
+}
+
+.actions__checkbox:checked ~ .dropdown {
+  opacity: 1;
+  max-height: 250px;
+}
+
+/* 预览区域 */
+.preview-canvas {
+  position: relative;
+  width: 330px;
+  height: 330px;
+  box-sizing: border-box;
+  border-radius: var(--radius-md);
+  margin: 20px 0;
+  border: 2px solid var(--theme-color);
+  box-shadow: var(--theme-shadow);
+}
+
+/* 加载遮罩 */
+.loading-mask {
+  width: 330px;
+  height: 330px;
+  border-radius: var(--radius-md);
+  transform: translateY(-353px) translateX(35px);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  position: absolute;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-mask::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 60px;
+  border: 8px solid rgba(240, 240, 240, 0.3);
+  border-bottom: 8px solid rgb(240, 240, 240);
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+}
+
+/* 网站皮肤标签页 */
+.tab-panel--website .form-container .actions {
+  margin: 0;
+  width: 100%;
+  gap: 10px;
+  grid-template-columns: none;
+  grid-template-rows: repeat(3, 1fr);
+}
+
+/* 确保网站标签页的下拉菜单不会超出容器边界 */
+.tab-panel--website .action-group {
+  position: relative;
+  overflow: visible;
+}
+
+.tab-panel--website .dropdown {
+  width: 100%; /* 修改为与父容器同宽 */
+  min-width: 100%;
+  left: 0;
+}
+
+/* 上传皮肤标签页 */
+.tab-panel--upload .preview-canvas {
+  margin-top: 20px;
+}
+
+/* 施工中区域 */
+.construction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: gray;
+}
+
+/* 页脚 */
+.footer {
+  text-align: center;
+  box-sizing: border-box;
+  height: 80px;
+  padding: 15px;
+  color: var(--footer-color);
+  background-color: var(--footer-bg);
+}
+
+.footer__text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 25px;
+}
+
+.footer__link {
+  transition: color var(--transition-normal);
+}
+
+.footer__link:hover {
+  color: var(--footer-hover);
+}
+
+.footer__count {
+  color: var(--theme-color);
+}
+
+/* 设置下拉菜单相对于父元素定位 */
+.actions__checkbox + label {
+  position: relative;
+}
+
+/* 确保下拉菜单在对应的标签下方 */
+.actions__checkbox ~ .dropdown {
+  position: absolute;
+  left: 0;
+  top: 35px; /* 标签高度 */
+}
+
+/* 确保下拉菜单在小屏幕设备上正确显示 */
+@media (max-width: 480px) {
+  .action-group {
+    position: static;
+  }
+  
+  .dropdown {
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 120px;
+    width: auto;
+  }
+}
+
